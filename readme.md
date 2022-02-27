@@ -91,6 +91,24 @@ List:
 - warm
 - warming
 4. Ran percents of how often those words came up if at all
-- Found that of the words selected for the climate change related words they appear 2.5% of the time. View breakdown below:
-
+- Found that of the words selected for the climate change related words they appear 2.5% of the time. Found that 17 words made up the 2.5%:
+```
+severe
+historic
+report
+record-setting
+life-threatening
+meteorologist
+record
+climate
+all-time
+scientist
+crisis
+policy
+global
+warm
+hottest
+unprecedented
+degree
+```
 
