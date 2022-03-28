@@ -7,7 +7,9 @@ from helpers.words import CLIMATE_CHANGE_RELATED_WORDS, CLIMATE_CHANGE_RELATED_P
 from helpers.cc_words import CC_WORDS, CC_PHRASES
 from thefuzz import fuzz
 import docx
+from docx.enum.text import WD_COLOR_INDEX
 from simplify_docx import simplify
+
 
 
 def docx_to_clean_dict(docx_as_json, first_table_index=1):
@@ -235,34 +237,48 @@ def clean_lemmatized_words(lemma_words):
     return list(filter(None, nonstop_lemma_words))
 
 
-class Color:
-   PURPLE = '\033[95m'
-   CYAN = '\033[96m'
-   DARKCYAN = '\033[36m'
-   BLUE = '\033[94m'
-   GREEN = '\033[92m'
-   YELLOW = '\033[93m'
-   RED = '\033[91m'
-   BOLD = '\033[1m'
-   UNDERLINE = '\033[4m'
-   END = '\033[0m'
+def highlight_words(doc, segment_list, words):
+    paragraph = doc.add_paragraph('')
+
+    chunks = []
+
+    for word in segment_list:
+        if word not in words:
+            chunks.append(word)
+        else:
+            p = ' '.join(chunks)
+            paragraph.add_run(f' {p} ')
+            paragraph.add_run(word).font.highlight_color = WD_COLOR_INDEX.YELLOW
+            chunks = []
+
+# class Color:
+#    PURPLE = '\033[95m'
+#    CYAN = '\033[96m'
+#    DARKCYAN = '\033[36m'
+#    BLUE = '\033[94m'
+#    GREEN = '\033[92m'
+#    YELLOW = '\033[93m'
+#    RED = '\033[91m'
+#    BOLD = '\033[1m'
+#    UNDERLINE = '\033[4m'
+#    END = '\033[0m'
     
 
-from colorama import Back
-def highlight_word(word, text):
-    highlighted_word = Color.BOLD + Color.RED + Color.UNDERLINE + word + Color.END
-    # highlighted_word = Back.CYAN + word + Back.RESET
+# from colorama import Back
+# def highlight_word(word, text):
+#     highlighted_word = Color.BOLD + Color.RED + Color.UNDERLINE + word + Color.END
+#     # highlighted_word = Back.CYAN + word + Back.RESET
     
-    if word in text:
-        return text.replace(word, highlighted_word)
-    else:
-        return ''
+#     if word in text:
+#         return text.replace(word, highlighted_word)
+#     else:
+#         return ''
     
 
-def highlighter(climate_words, text):
-    if not climate_words:
-        return ''
+# def highlighter(climate_words, text):
+#     if not climate_words:
+#         return ''
     
-    return [highlight_word(word, text) for word in climate_words]
+#     return [highlight_word(word, text) for word in climate_words]
     
-# https://stackoverflow.com/questions/8924173/how-do-i-print-bold-text-in-python
+# # https://stackoverflow.com/questions/8924173/how-do-i-print-bold-text-in-python
